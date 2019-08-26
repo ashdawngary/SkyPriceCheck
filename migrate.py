@@ -14,7 +14,6 @@ args = parser.parse_args()
 
 inFileExists = (args.absolute and os.path.isfile(args.infile)) or ((not args.absolute) and os.path.isfile(os.getcwd()+"/"+ args.infile))
 if not inFileExists:
-    
     print("Unable to find your file specified. Exiting.")
     exit(-1)
 
