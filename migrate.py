@@ -46,7 +46,7 @@ def getSanitizedValue(some_value):
             print("Failed to cast to number: %s"%(some_value))
             return (0,None)
 def augment(numerical,signature):
-    return {'c':1,'k':10**4,'m':10**6,'b':10**9,None:1}[signature] * numerical
+    return {'c':1,'k':10**3,'m':10**6,'b':10**9,None:1}[signature] * numerical
 
 def getSanitizedRange(cStr):
     if len(cStr) == 0:
