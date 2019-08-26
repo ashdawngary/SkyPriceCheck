@@ -75,7 +75,7 @@ class PricesTable:
     def publish(self):
         # time to do some subprocess magic
         subprocess.call("git add -A".split(" "))
-        subprocess.call(["git", "commit", "-m Automated Refresh" "-m Changes \n: %s"%('\n'.join(self.loggedChanges))])
+        subprocess.call(["git", "commit", "-m Automated Refresh" " -m Changes \n: %s"%('\n'.join(self.loggedChanges))])
         self.loggedChanges = []
         subprocess.call(["git","push","origin","master"])
         
