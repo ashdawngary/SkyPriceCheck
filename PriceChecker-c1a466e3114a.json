@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "pricechecker-250716",
+  "private_key_id": "c1a466e3114a19bee35a165e7627ed7bfa905a1f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCsnvMDXAyKu4Pp\nuSMUC1xsxjk2MToCjBe1OKyL8RwsqrveTXYMjGYzE0Eul+ycj2ma8KGM3UfdgFPn\ndA75KilXp7eCG1qAimIOv3QSRZs7/O9ircAnlpNSVb9kgk5mazIm3Py1Ew6GsmNm\nLjXhI9S3qbWyKJsQd/yi/3V0V/pxSjrFO7L9MYDL4iMdTG23otrQdx2O1nFZYhJy\ngbqD6mMMDZSySG8e2tt+4Z16VZcGI+FzU2xsK9/mKvG2CsVz3SizEOybqCbP9dQU\nEsPnUNmcuPeglkkyQl0a4ayT6WDnsjCxSRQe45xgxBpYG/faVQMMcksAPHXRt/sd\nSWgwJeSlAgMBAAECggEACv4mUKD0hYMyf9hT5QtiK+UlsI9K9+2O9vHwfwrwNeH7\ni8kYCu2H9pmzzXFMVp4FZiILz6op0O/CqBsqdvCZ6GScWZM/XK8zVmgXzrATFith\n3UFeWscKg7RFN3Pa5UfPTk1FZIydoLNMhC3OLZO4EKgkk39lfJN/iavGAY42uy8Z\npbu6LAZa5ItEwUBkwezENENNci6zrSiihhjE0KIpTv5F6DgeppuEvadr8qAyhCBs\nNvjDEMmMNQc1olFZEXiRPJuDf3FlcvUyRuegR6uYc3XP05Rc/2Buh+XMml4CpAjE\n8cvbxoXJ7K02o1mD1sJyM0N78QlCED6/s3M5Dk4VgwKBgQDd7jgfXeZ423wY/3+3\nN/IoRvjRILiDcdXK+U3h0vTK1vqyYEHtUngCxcnNEfWSsGZeUTmLisXJdZ4+j3nB\n9K7o3pyZYB9pMff11Xss64HlahB2FeHFdm+TcHCn07ADQ7Eae6yNta3zy9n1vpYe\nOve/UA+wUtRPPim+Sfm2kCw52wKBgQDHHuF6TeTgExtXKE9tNZc70Bg3i4UkOqTN\nwwmHFc2DR/YXYSTY6sT333NrEnXYVa7FFFzMJQyYA7U8Nj1iZmQnZ/XWObsrFhXW\nYwiggPQGsDQwXaPDonbA73VvWTpwUNViPE87pUHGu21j1jV0BxJfJEhmUqxyLVB4\n3VB10TjjfwKBgE1S3LcBDnX5cwl6q9L4aSTjZXnnvqH9nZG0vw/5YlTyBjL0GsRH\nQY0lwKP0p+1ODLy77CLUXQlOM650auXLDM4SEdnWhdsvD8fVc6849u8pv0aFZT5Z\nf5KNUJMIzIC2qxQhFwPg0xToZ66ZktBBl2ROzsiOc26QqBamy5xyKxaVAoGAMMbZ\nyRIHvPQxQFp5inEUSOyi4ghlZwiOknDyhorKuxwHppZ/ZjusYGP2bAYrpADpPRHN\n4Zw5x4sw/Dz1MIOQiS6oRAAEX3ubgdbkqByuqmzDfA2ULjpACOcfx1T+QcErZFMN\nvbivsjT7iPdSRMfusiu7KIWcBKQhEFp2eUX1P5UCgYEAyVGxw+VZrG3L/oM2KGff\nyFUKinkvDACTBdfQejZDHj+reYgfEfqCEZQnCESG7ZWdZqbR7wyQCuQO+keeA8Nu\nY/w1f5zFqlB3zHU7X39WmmeB4mB43qITf+3l2TCvkYgYObRZF9FO+mlZ1/b0+jAs\n5dirovgC8G8RxCoGbRF7HVY=\n-----END PRIVATE KEY-----\n",
+  "client_email": "blueborne@pricechecker-250716.iam.gserviceaccount.com",
+  "client_id": "108235662948755892866",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/blueborne%40pricechecker-250716.iam.gserviceaccount.com"
+}

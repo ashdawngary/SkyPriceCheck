@@ -4,7 +4,7 @@ import os
 import subprocess
 
 #Skyblock Price Table
-# Features autocorrect, string eval, full sanitizer, and a 
+# Features autocorrect, string eval, full sanitizer
 
 # Three methods of loading files for prices.
 
@@ -44,7 +44,7 @@ def getSanitizedValue(some_value):
     if "$" in some_value and sign == None:
         sign = 'c'
         some_value = some_value.replace('$','')
-        
+
     if ('.' in some_value):
         return (float(some_value),sign)
     else:
@@ -79,7 +79,7 @@ class PricesTable:
         if revised != name:
             print("Autocorrected to: %s"%(revised))
         return self.data[revised]
-    
+
     def modify(self,name,field,value):
         self.data[name][field] = value
         if field == 'name':
@@ -91,12 +91,12 @@ class PricesTable:
             'hi': 'upper bound price',
             'low': 'lower bound price',
             'name': 'formal name'
-        }    
+        }
         self.loggedChanges.append("Changed the %s of %s to %s"%(humane_readable[field], name, value))
         with open(self.dest,"w") as outHandle:
             outHandle.write(json.dumps(list(self.data.values())))
             outHandle.close()
-            
+
     def publish(self):
         # time to do some subprocess magic
         subprocess.call("git add -A".split(" "))
@@ -121,7 +121,7 @@ class PricesTable:
             return [value["low"],value["hi"]]
     def eval(self,gStr,incog = True):
         gStr = gStr.lower()
-        
+
         current_price = [0,0]
         data = list(gStr)
         currentLevel = 0
@@ -159,7 +159,7 @@ class PricesTable:
                 parsed_symbols.append("")
             else:
                 parsed_symbols[-1] += nextChar
-                
+
         if type(parsed_symbols[-1]) == str:
             if len(parsed_symbols[-1]) > 0:
                 parsed_symbols[-1] = self.estimate_literalOrItem(parsed_symbols[-1])
@@ -182,6 +182,5 @@ class PricesTable:
         if not incog:
             print("answer is between %s and %s"%(current_price[0],current_price[1]))
         return current_price
-    
+
 q = PricesTable(loadJsonViaGithub())
-    
