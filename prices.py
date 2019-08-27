@@ -93,6 +93,9 @@ class PricesTable:
                 return self.traceAliasTree(aliased_answer[0])
     def addAlias(self,alias_name,target):
         # target can be an alias too, it will point to the tree.
+        if (not target in self.aliasSet) and (not target in self.names):
+            print("error, the destination `%s` is not a valid alias or a valid name."%(self.target))
+            return -1
         self.aliasSet.add(alias_name)
         self.alias[alias_name] = {
             'src': alias_name,
@@ -100,7 +103,7 @@ class PricesTable:
         }
         self.loggedChanges.append("Aliased %s to %s"%(alias_name,target))
         with open(self.aliasDest,"w") as outHandle:
-            outHandle.write(json.dumps(list(self.data.values())))
+            outHandle.write(json.dumps(list(self.alias.values())))
             outHandle.close()
     def query(self,name):
         name = name.lstrip().rstrip().lower().replace(' ','_')
