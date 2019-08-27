@@ -114,11 +114,12 @@ class PricesTable:
                 alpha += 1
         if numeric > alpha:
             # treat is as a number
-            return augment(*getSanitizedValue(eStr))
+            data =  augment(*getSanitizedValue(eStr))
+            return [data,data]
         else:
             value = self.query(eStr)
             return [value["low"],value["hi"]]
-    def eval(self,gStr):
+    def eval(self,gStr,incog = True):
         gStr = gStr.lower()
         
         current_price = [0,0]
@@ -140,18 +141,30 @@ class PricesTable:
                         epic.append(nexChar)
 
                 value = self.eval(''.join(epic))
-                parsed_symbols[-1] = self.estimate_literalOrItem(parsed_symbols[-1])
-                parsed_symbols.append(value)
+                if len(parsed_symbols[-1].lstrip()) != 0:
+                    #print("did not overwrite answer")
+                    parsed_symbols[-1] = self.estimate_literalOrItem(parsed_symbols[-1])
+                    parsed_symbols.append(value)
+                else:
+                    #print("overwrote answer")
+                    parsed_symbols[-1] = value
+                    #print(parsed_symbols)
                 parsed_symbols.append("")
-            elif nextChar == ')':
-                print("unbalanced lmao")
             elif nextChar in ['*','/','+','-']:
-                parsed_symbols[-1] = self.estimate_literalOrItem(parsed_symbols[-1])
-                parsed_symbols.append(nextChar)
+                if len(parsed_symbols[-1].lstrip()) != 0:
+                    parsed_symbols[-1] = self.estimate_literalOrItem(parsed_symbols[-1])
+                    parsed_symbols.append(nextChar)
+                else:
+                    parsed_symbols[-1] = nextChar
                 parsed_symbols.append("")
             else:
                 parsed_symbols[-1] += nextChar
-
+                
+        if type(parsed_symbols[-1]) == str:
+            if len(parsed_symbols[-1]) > 0:
+                parsed_symbols[-1] = self.estimate_literalOrItem(parsed_symbols[-1])
+            else:
+                parsed_symbols.pop()
         current_price = parsed_symbols.pop(0)
         currentop = ""
         functions = {
@@ -164,8 +177,10 @@ class PricesTable:
             if i in ['*','/','+','-']:
                 currentop = i
             else:
+                #print(current_price,i)
                 current_price = functions[currentop](current_price,i)
-        
+        if not incog:
+            print("answer is between %s and %s"%(current_price[0],current_price[1]))
         return current_price
     
 q = PricesTable(loadJsonViaGithub())
