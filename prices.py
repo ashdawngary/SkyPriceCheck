@@ -154,7 +154,7 @@ class PricesTable:
         self.loggedChanges = []
         subprocess.call(["git","push","origin","master"])
 
-    def estimate_literalOrItem(self,eStr):
+    def estimate_literalOrItem(self,eStr,mistakes_tolerance = 6):
         alpha = 0
         numeric = 0
         for i in eStr:
@@ -167,7 +167,7 @@ class PricesTable:
             data =  augment(*getSanitizedValue(eStr))
             return [data,data]
         else:
-            value = self.query(eStr)
+            value = self.query(eStr,mistakes_tolerance = mistakes_tolerance)
             return [value["low"],value["hi"]]
     def eval(self,gStr,incog = True):
         gStr = gStr.lower()
