@@ -82,7 +82,7 @@ class PricesTable:
 
     def guestimate(self,name):
         if name in self.names:
-           return [name]
+           return [name,0]
         else:
             name_answer = min([ [potname,metric(name,potname)] for potname in self.names ],key = lambda x: x[1])
             aliased_answer = min([ [potname,metric(name,potname)] for potname in self.aliasSet ],key = lambda x: x[1])
@@ -90,7 +90,7 @@ class PricesTable:
             if name_answer[1] < aliased_answer[1]:
                 return name_answer
             else:
-                return self.traceAliasTree(aliased_answer[0])
+                return [self.traceAliasTree(aliased_answer[0]),aliased_answer[1]]
     def addAlias(self,alias_name,target):
         # target can be an alias too, it will point to the tree.
         if (not target in self.aliasSet) and (not target in self.names):
@@ -105,12 +105,16 @@ class PricesTable:
         with open(self.aliasDest,"w") as outHandle:
             outHandle.write(json.dumps(list(self.alias.values())))
             outHandle.close()
-    def query(self,name):
+    def query(self,name,mistakes_tolerance = 6):
         name = name.lstrip().rstrip().lower().replace(' ','_')
-        revised = self.guestimate(name)[0]
+        revised,distance = self.guestimate(name)
+	
         if revised != name:
             print("Autocorrected to: %s"%(revised))
-        return self.data[revised]
+        if distance > mistakes_tolerance:
+            return {'name':None,'low':None,'hi':None, 'suggest': revised}
+        else:
+            return self.data[revised]
     def addItem(self,name,lo,hi):
         if not name in self.names:
             self.names.add(name)
