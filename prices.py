@@ -59,26 +59,68 @@ def augment(numerical,signature):
 
 
 class PricesTable:
-    def __init__(self, jsonFormattedData,localDest = 'data.json'):
+    def __init__(self, jsonFormattedData,jsonFormattedAliases,localDest = 'data.json',localAlias = 'alias.json'):
         self.original_data = jsonFormattedData
+        self.original_alias = jsonFormattedAliases
+
         self.data = {}
+        self.alias = {}
         self.dest = localDest
+        self.aliasDest = localAlias
         for data in self.original_data:
             self.data[data['name']] = data
+        for data in self.original_alias:
+            self.alias[data["src"]]=  data
         self.names = set(map(lambda x: x['name'],self.original_data))
+        self.aliasSet = set(map(lambda x: x['src'],self.original_alias))
         self.loggedChanges = []
+    def traceAliasTree(self,currentAlias):
+        # traces an alias chain until it reaches a valid identifier.
+        while not currentAlias in self.names:
+            currentAlias = self.alias[currentAlias]['dest']
+        return currentAlias
+
     def guestimate(self,name):
         if name in self.names:
            return [name]
         else:
-            return min([ [potname,metric(name,potname)] for potname in self.names ],key = lambda x: x[1])
-
+            name_answer = min([ [potname,metric(name,potname)] for potname in self.names ],key = lambda x: x[1])
+            aliased_answer = min([ [potname,metric(name,potname)] for potname in self.names ],key = lambda x: x[1])
+            if name_answer[1] < aliased_answer[1]:
+                return name_answer
+            else:
+                return self.traceAliasTree(aliased_answer[0])
+    def addAlias(self,alias_name,target):
+        # target can be an alias too, it will point to the tree.
+        self.aliasSet.add(alias_name)
+        self.alias[alias_name] = {
+            'src': alias_name,
+            'dest' : target
+        }
+        self.loggedChanges.append("Aliased %s to %s"%(alias_name))
+        with open(self.aliasDest,"w") as outHandle:
+            outHandle.write(json.dumps(list(self.data.values())))
+            outHandle.close()
     def query(self,name):
         name = name.lstrip().rstrip().lower().replace(' ','_')
         revised = self.guestimate(name)[0]
         if revised != name:
             print("Autocorrected to: %s"%(revised))
         return self.data[revised]
+    def addItem(self,name,lo,hi):
+        if not name in self.names:
+            self.names.add(name)
+            self.data[name] = {
+                'name': name,
+                'low': lo,
+                'hi': hi
+            }
+            self.loggedChanges.append("Added new Item %s with bounds [%s,%s]"%(name,lo,hi))
+            with open(self.dest,"w") as outHandle:
+                outHandle.write(json.dumps(list(self.data.values())))
+                outHandle.close()
+        else:
+            print("Item %s already exists."%(name))
 
     def modify(self,name,field,value):
         self.data[name][field] = value
@@ -100,7 +142,7 @@ class PricesTable:
     def publish(self):
         # time to do some subprocess magic
         subprocess.call("git add -A".split(" "))
-        subprocess.call(["git", "commit", "-m Automated Refresh" " \nChanges:\n%s"%('\n'.join(self.loggedChanges))])
+        subprocess.call(["git", "commit", "-m Automated Refresh"," \nChanges:\n%s"%('\n'.join(self.loggedChanges))])
         self.loggedChanges = []
         subprocess.call(["git","push","origin","master"])
 
@@ -183,4 +225,4 @@ class PricesTable:
             print("answer is between %s and %s"%(current_price[0],current_price[1]))
         return current_price
 
-q = PricesTable(loadJsonViaGithub())
+q = PricesTable(loadJsonViaGithub(),loadJsonViaGithub(file='alias.json'))

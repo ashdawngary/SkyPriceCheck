@@ -89,4 +89,4 @@ async def price(ctx, *, item):
 async def request(ctx, item):
         await ctx.send(f'<@&593161930273849354> , please price check the following item {item}, and add it to the database, thank you!')
 
-client.run('NjE0NTA1OTkyOTY0ODAwNTUy.XWAoQg.n77tk6H1PTaSthRwxqen_eV5NpQ')
+client.run('NjE1NzUyNDQxMjExNzgxMTMx.XWSmKg.WtKgoM1UsFgWIWeVMx_0cFkOb44')
