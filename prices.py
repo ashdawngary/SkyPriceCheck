@@ -85,7 +85,8 @@ class PricesTable:
            return [name]
         else:
             name_answer = min([ [potname,metric(name,potname)] for potname in self.names ],key = lambda x: x[1])
-            aliased_answer = min([ [potname,metric(name,potname)] for potname in self.names ],key = lambda x: x[1])
+            aliased_answer = min([ [potname,metric(name,potname)] for potname in self.aliasSet ],key = lambda x: x[1])
+            print(name_answer,aliased_answer)
             if name_answer[1] < aliased_answer[1]:
                 return name_answer
             else:
@@ -97,7 +98,7 @@ class PricesTable:
             'src': alias_name,
             'dest' : target
         }
-        self.loggedChanges.append("Aliased %s to %s"%(alias_name))
+        self.loggedChanges.append("Aliased %s to %s"%(alias_name,target))
         with open(self.aliasDest,"w") as outHandle:
             outHandle.write(json.dumps(list(self.data.values())))
             outHandle.close()
@@ -142,7 +143,7 @@ class PricesTable:
     def publish(self):
         # time to do some subprocess magic
         subprocess.call("git add -A".split(" "))
-        subprocess.call(["git", "commit", "-m Automated Refresh"," \nChanges:\n%s"%('\n'.join(self.loggedChanges))])
+        subprocess.call(["git", "commit", "-m Automated Refresh \n Changes:\n%s"%('\n'.join(self.loggedChanges))])
         self.loggedChanges = []
         subprocess.call(["git","push","origin","master"])
 
