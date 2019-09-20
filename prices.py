@@ -124,6 +124,7 @@ class PricesTable:
                 if self.alias[i]['dest'] == name:
                     collateral.append(self.alias[i]['src'])
             self.data.pop(name)
+            self.names.remove(name)
             self.loggedChanges.append("Removed The Item: %s"%(name))
             for leaves in collateral:
                 self.removeItem(leaves,root=False)
