@@ -131,7 +131,7 @@ class PricesTable:
             collateral = []
             destroy = []
             for i in self.alias: # i = src key
-                if  i == target:
+                if  i == name:
                     destroy.append(self.alias[i])
                 elif self.alias[i]['dest'] == target:
                     collateral.append(i['src']) # remove deadlinks on tree
@@ -140,7 +140,7 @@ class PricesTable:
                 self.removeItem(i,root=False)
             for i in destroy:
                 self.alias.pop(i['src'])
-                self.aliasSet.remove(i)            
+                self.aliasSet.remove(i['src'])            
                 self.loggedChanges.append("Removed Alias point from <%s> to <%s>"%(i['src'],i['dest']))
                 
         if root:
