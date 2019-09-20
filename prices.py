@@ -115,6 +115,43 @@ class PricesTable:
             return {'name':None,'low':None,'hi':None, 'suggest': revised}
         else:
             return self.data[revised]
+    def removeItem(self,name,root=True):
+        # reomves item and all all aliases
+        if name in self.names:
+            # its a name
+            collateral = []
+            for i in self.alias:
+                if self.alias[i]['dest'] == name:
+                    collateral.append(self.alias[i]['src'])
+            self.data.pop(name)
+            self.loggedChanges.append("Removed The Item: %s"%(name))
+            for leaves in collateral:
+                self.removeItem(leaves,root=False)
+        elif name in self.alias:
+            collateral = []
+            destroy = []
+            for i in self.alias: # i = src key
+                if  i == target:
+                    destroy.append(self.alias[i])
+                elif self.alias[i]['dest'] == target:
+                    collateral.append(i['src']) # remove deadlinks on tree
+            
+            for i in collateral:
+                self.removeItem(i,root=False)
+            for i in destroy:
+                self.alias.pop(i['src'])
+                self.aliasSet.remove(i)            
+                self.loggedChanges.append("Removed Alias point from <%s> to <%s>"%(i['src'],i['dest']))
+                
+        if root:
+            with open(self.aliasDest,"w") as aliasWriter:
+                aliasWriter.write(json.dumps(self.alias))
+                aliasWriter.close()
+            with open(self.dest,"w") as outHandle:
+                outHandle.write(json.dumps(list(self.data.values())))
+                outHandle.close()
+            self.publish()
+        
     def addItem(self,name,lo,hi):
         if not name in self.names:
             self.names.add(name)
@@ -150,7 +187,7 @@ class PricesTable:
     def publish(self):
         # time to do some subprocess magic
         subprocess.call("git add -A".split(" "))
-        subprocess.call(["git", "commit", "-m Automated Refresh \n Changes:\n%s"%('\n'.join(self.loggedChanges))])
+        subprocess.call(["git", "commit", "-m \"Automated Refresh \n Changes:\n%s\""%('\n'.join(self.loggedChanges))])
         self.loggedChanges = []
         subprocess.call(["git","push","origin","master"])
 
