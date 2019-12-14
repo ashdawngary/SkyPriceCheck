@@ -1,6 +1,6 @@
 # SkyPriceCheck
 
-litearly spent 2 hours on this ( Created by AshX101/intelX/travelindiajuly)
+litearly spent 2 hours on this ( Created by AshX101/intelX)
 
 usage
 
